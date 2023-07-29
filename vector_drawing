@@ -1,0 +1,28 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+length = 2  # initial length of vector
+angle = np.deg2rad(10)  # angle of vector from horizontal axis in radians
+
+u = length * np.cos(angle)  # x-component of vector
+v = length * np.sin(angle)  # y-component of vector
+
+fig, ax = plt.subplots()
+q = ax.quiver(0, 0, u, v)
+
+def update_quiver(length):
+    """Update the length of the vector in the quiver plot."""
+    u = length * np.cos(angle)
+    v = length * np.sin(angle)
+    q.set_UVC(u, v)
+
+ax.set_xlim([-length, length])
+ax.set_ylim([-length, length])
+ax.set_aspect('equal')
+
+from matplotlib.widgets import Slider
+length_slider_ax = fig.add_axes([0.2, 0.05, 0.6, 0.05])
+length_slider = Slider(length_slider_ax, 'Length', valmin=0.1, valmax=10, valstep=0.1, valinit=length)
+length_slider.on_changed(update_quiver)
+
+plt.show()
